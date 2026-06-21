@@ -6,17 +6,18 @@ Initial node project and run server
 
 ## Tasks
 
-- [ ] Install node.js
-- [ ] Initial npm project
-- [ ] Git initilization
-- [ ] Verify project runs correctly` 
+- [X] Install node.js
+- [X] Initial npm project
+- [x] Git initilization
 
 ## Status
 
-IN PROGRESS
+DONE
 
 ## Deliverables
 
-- node_module/
-- app.js
+- server.js
 - package.json
+- .gitignore
+- package.json
+- README.md
