@@ -6,12 +6,19 @@ Install Express and create the base server structure.
 
 ## Tasks
 
-- [ ] Install express
-- [ ] Create src directory
-- [ ] Create app.js
-- [ ] Create server.js
-- [ ] Configure JSON middleware
-- [ ] Add health check route
+- [x] Install express
+- [x] Create src directory
+<!-- - [ ] Create app.js -->
+- [x] Create server.js
+- [x] Configure JSON middleware
+- [x] Add root api
+
+## Status
+
+DONE
 
 ## Deliverables
 
+- server.js
+- node_module/
+- package-lock.json
