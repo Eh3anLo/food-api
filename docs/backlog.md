@@ -6,12 +6,11 @@
 
 ## Setup
 
-- [ ] Issue #2 Initialize Node Project
-- [ ] Issue #3 Configure Express
-- [ ] Issue #4 Setup Prisma
-- [ ] Issue #5 Setup Environment Variables
+- [x] Issue #2 Initialize Node Project
+- [x] Issue #3 Configure Express
+- [x] Issue #5 Setup Environment Variables
 - [ ] Issue #6 Setup PostgreSQL
-- [ ] Issue #7 Setup Prisma
+- [ ] Issue #4 Setup Prisma
 - [ ] Issue #8 Create Folder Structure
 
 ## Database
