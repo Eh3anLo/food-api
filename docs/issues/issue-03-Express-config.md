@@ -13,18 +13,5 @@ Install Express and create the base server structure.
 - [ ] Configure JSON middleware
 - [ ] Add health check route
 
-## Acceptance Criteria
-
-- Server starts successfully
-- GET /health returns 200 response
-
 ## Deliverables
 
-src/
-
-├── app.js
-└── server.js
-
-## Suggested Branch
-
-feature/express-setup
