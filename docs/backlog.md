@@ -16,6 +16,7 @@
 ## Database
 
 - [x] Issue #8  Design Prisma Schema and Initilization
+- [x] Configure Prisma client
 - [ ] Issue #10 Seed Database
 
 ## Authentication
