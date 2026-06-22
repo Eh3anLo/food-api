@@ -7,14 +7,14 @@ Install PostgreSQL, create database, and verify connectivity.
 
 ## Tasks
 
-* [ ] Install PostgreSQL
-* [ ] Create development database
-* [ ] Verify database connection
-* [ ] Save connection string in .env
+* [x] Install PostgreSQL
+* [x] Create development database
+* [x] Verify database connection
+* [x] Save connection string in .env
 
 ## STATUS
 
-IN PROGRESS
+DONE
 
 ## Deliverables
 

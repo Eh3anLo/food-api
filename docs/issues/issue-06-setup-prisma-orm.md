@@ -6,11 +6,14 @@ Install Prisma, initialize configuration, and connect to database.
 
 ## Tasks
 
-* [ ] Install prisma
-* [ ] Install @prisma/client
-* [ ] Run prisma init
-* [ ] Configure DATABASE_URL
-* [ ] Test Prisma connection
+* [x] Install prisma
+* [x] Install @prisma/client
+* [x] Run prisma init
+* [x] Configure DATABASE_URL
+
+## STATUS
+
+DONE
 
 ## Deliverables
 

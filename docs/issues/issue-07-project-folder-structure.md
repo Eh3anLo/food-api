@@ -6,13 +6,13 @@ Prepare folders according to the selected architecture.
 
 ## Tasks
 
-* [ ] Create routes directory
-* [ ] Create controllers directory
-* [ ] Create services directory
-* [ ] Create middlewares directory
-* [ ] Create validators directory
+* [x] Create routes directory
+* [x] Create controllers directory
+* [x] Create services directory
+* [x] Create middlewares directory
+* [x] Create validators directory
 * [X] Create utils directory
-* [ ] Create docs directory
+* [x] Create docs directory
 
 ## Deliverables
 

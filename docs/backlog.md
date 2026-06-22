@@ -9,9 +9,9 @@
 - [x] Issue #2 Initialize Node Project
 - [x] Issue #3 Configure Express
 - [x] Issue #5 Setup Environment Variables
-- [ ] Issue #6 Setup PostgreSQL
-- [ ] Issue #4 Setup Prisma
-- [ ] Issue #8 Create Folder Structure
+- [x] Issue #6 Setup PostgreSQL
+- [x] Issue #4 Setup Prisma
+- [x] Issue #8 Create Folder Structure
 
 ## Database
 
