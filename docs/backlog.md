@@ -8,16 +8,15 @@
 
 - [x] Issue #2 Initialize Node Project
 - [x] Issue #3 Configure Express
-- [x] Issue #5 Setup Environment Variables
-- [x] Issue #6 Setup PostgreSQL
-- [x] Issue #4 Setup Prisma
-- [x] Issue #8 Create Folder Structure
+- [x] Issue #3 Setup Environment Variables
+- [x] Issue #5 Setup PostgreSQL
+- [x] Issue #6 Setup Prisma
+- [x] Issue #7 Create Folder Structure
 
 ## Database
 
-- [ ] Issue #9  Design Prisma Schema
-- [ ] Issue #10 Create Initial Migration
-- [ ] Issue #11 Seed Database
+- [x] Issue #8  Design Prisma Schema and Initilization
+- [ ] Issue #10 Seed Database
 
 ## Authentication
 

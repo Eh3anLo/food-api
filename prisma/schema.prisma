@@ -11,3 +11,83 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PREPARING
+  DELIVERED
+  CANCELLED
+}
+
+
+model User {
+  id         Int       @id @default(autoincrement())
+  name       String
+  email      String    @unique
+  password   String    
+  role       Role      @default(USER)
+
+  orders    Order[]
+
+  created_at DateTime  @default(now())
+
+  @@map("users")
+}
+
+model Order {
+  id          Int         @id @default(autoincrement())
+
+  userId      Int
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  totalPrice  Int
+
+  status      OrderStatus @default(PENDING)
+
+  items       OrderItem[]
+
+  created_at  DateTime    @default(now())
+  updated_at  DateTime    @updatedAt
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id          Int     @id @default(autoincrement())
+
+  orderId     Int
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  menuItemId  Int
+  menuItem    MenuItem @relation(fields: [menuItemId], references: [id])
+
+  quantity    Int  
+
+  price       Int
+  @@map("order_items")
+}
+
+model MenuItem {
+  id            Int      @id @default(autoincrement())
+  name          String
+  description   String
+  price         Int
+
+  category      String[] @default(["غذای اصلی" , "پیش غذا", "نوشیدنی", "دسر","مخلفات"])
+  
+  isAvailable   Boolean  @default(true)
+
+  orderItems    OrderItem[]
+
+  created_at    DateTime @default(now())
+
+  @@map("menu_items")
+}
+
+
