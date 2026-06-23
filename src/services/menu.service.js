@@ -1,4 +1,4 @@
-const primsa = require("../config/prisma");
+const prisma = require("../config/prisma");
 
 async function getAllMenuItems() {
   const categoryLable = {
@@ -7,16 +7,33 @@ async function getAllMenuItems() {
     DESSERT: "دسر",
     DRINK: "نوشیدنی",
   };
-  const menuItems =  await primsa.menuItem.findMany({
+  const menuItems = await prisma.menuItem.findMany({
     orderBy: {
       created_at: "desc",
     },
   });
 
-  return menuItems.map(item => ({
+  return menuItems.map((item) => ({
     ...item,
-    category: categoryLable[item.category]
-  }))
+    category: categoryLable[item.category],
+  }));
 }
 
-module.exports = { getAllMenuItems };
+async function getMenuItem(id) {
+  
+  const menuItem = await prisma.menuItem.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if(!menuItem){
+    const error = new Error("آیتم مورد نظر یافت نشد")
+    error.status = 404
+    throw error
+  }
+
+  return menuItem
+}
+
+module.exports = { getAllMenuItems, getMenuItem };

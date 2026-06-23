@@ -1,8 +1,8 @@
 const express = require("express")
-const { getMenu } = require("../controllers/menu.controller")
+const menuController = require("../controllers/menu.controller")
 const router = express.Router()
 
-router.route("/").get(getMenu)
-
+router.route("/").get(menuController.getMenu)
+router.route("/:id").get(menuController.getMenuItem)
 
 module.exports = router

@@ -30,25 +30,25 @@ Authentication is not required.
 
 ### Route Layer
 
-* [ ] Create menu routes file
-* [ ] Create GET `/menu` endpoint
-* [ ] Register menu routes in server.js
+* [x] Create menu routes file
+* [x] Create GET `/menu` endpoint
+* [x] Register menu routes in server.js
 
 ### Controller Layer
 
-* [ ] Create menu controller
-* [ ] Handle incoming request
-* [ ] Return formatted response
+* [x] Create menu controller
+* [x] Handle incoming request
+* [x] Return formatted response
 
 ### Service Layer
 
-* [ ] Create menu service
-* [ ] Fetch menu items from database using Prisma
+* [x] Create menu service
+* [x] Fetch menu items from database using Prisma
 
 ### Database Layer
 
-* [ ] Query MenuItem table
-* [ ] Return menu items ordered by creation date
+* [x] Query MenuItem table
+* [x] Return menu items ordered by creation date
 
 ## Prisma Query
 
@@ -107,11 +107,11 @@ Status Code: 500
 
 ## Acceptance Criteria
 
-* [ ] GET `/menu` endpoint works
-* [ ] Data retrieved from PostgreSQL via Prisma
-* [ ] Returns list of menu items
-* [ ] Returns HTTP 200 on success
-* [ ] Response format is consistent
+* [x] GET `/menu` endpoint works
+* [x] Data retrieved from PostgreSQL via Prisma
+* [x] Returns list of menu items
+* [x] Returns HTTP 200 on success
+* [x] Response format is consistent
 
 ```
 ```

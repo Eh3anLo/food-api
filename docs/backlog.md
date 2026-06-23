@@ -28,8 +28,8 @@
 
 ## Menu
 
-- [ ] Issue #16 Get Menu
-- [ ] Issue #17 Get Menu Item
+- [x] Issue #16 Get Menu
+- [x] Issue #17 Get Menu Item
 - [ ] Issue #18 Create Menu Item
 - [ ] Issue #19 Update Menu Item
 - [ ] Issue #20 Delete Menu Item
