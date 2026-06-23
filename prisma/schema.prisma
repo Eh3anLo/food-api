@@ -24,6 +24,13 @@ enum OrderStatus {
   CANCELLED
 }
 
+enum Category {
+  MAIN_COURSE @map("غذای اصلی")
+  APPETIZER   @map("پیش عذا")
+  DESSERT     @map("دسر")
+  DRINK       @map("نوشیدنی")
+}
+
 
 model User {
   id         Int       @id @default(autoincrement())
@@ -78,7 +85,7 @@ model MenuItem {
   description   String
   price         Int
 
-  category      String[] @default(["غذای اصلی" , "پیش غذا", "نوشیدنی", "دسر","مخلفات"])
+  category      Category
   
   isAvailable   Boolean  @default(true)
 
