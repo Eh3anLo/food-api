@@ -10,11 +10,11 @@ Code Register API - Controller + Service + Routes
 - [x] Create auth.controller.js
 - [x] Create auth.route.js
 - [x] Send register request
-- [ ] Handle errors
+- [x] Handle errors
 
 ## Status
 
-IN PROGRESS
+DONE
 
 ## Deliverables
 

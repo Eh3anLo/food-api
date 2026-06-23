@@ -1,37 +1,36 @@
-const bcrypt = require('bcrypt')
-const prisma = require('../config/prisma');
+const bcrypt = require("bcrypt");
+const prisma = require("../config/prisma");
 
 async function register(data) {
+  const { name, email, password } = data;
 
-    const { name, email, password } = data;
+  const role = data.role || "USER";
 
-    const role = data.role || "USER";
-    
-    const existingUser = await prisma.user.findUnique({
-        where: {
-            email
-        }
-    })
+  const existingUser = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
 
-    if(existingUser){
-        // handle error and return
-    }
+  if (existingUser) {
+    // handle error and return
+    const error = new Error("حساب کاربری با ایمیل وجود دارد.");
+    error.status = 409;
+    throw error;
+  }
 
-    const hashedPassword = await bcrypt.hash(password, 10)
-    const user = await prisma.user.create({
-        data: {
-            name,
-            password: hashedPassword,
-            email,
-            role
-        }
-    })
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const user = await prisma.user.create({
+    data: {
+      name,
+      password: hashedPassword,
+      email,
+      role,
+    },
+  });
 
-    console.log(user)
-    return user
-
-    
+  console.log(user);
+  return user;
 }
 
-
-module.exports = { register }
+module.exports = { register };

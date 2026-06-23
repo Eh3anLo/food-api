@@ -16,15 +16,15 @@
 ## Database
 
 - [x] Issue #8  Design Prisma Schema and Initilization
-- [x] Configure Prisma client
+- [x] Issue #9  Configure Prisma client
 - [ ] Issue #10 Seed Database
 
 ## Authentication
 
-- [ ] Issue #12 Register API
-- [ ] Issue #13 Login API
-- [ ] Issue #14 JWT Middleware
-- [ ] Issue #15 Role Authorization Middleware
+- [x] Issue #11 Register API
+- [ ] Issue #12 Login API
+- [ ] Issue #13 JWT Middleware
+- [ ] Issue #14 Role Authorization Middleware
 
 ## Menu
 
