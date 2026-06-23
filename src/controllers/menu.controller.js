@@ -16,7 +16,6 @@ async function getMenu(req, res, next) {
   }
 }
 
-
 async function getMenuItem(req, res, next) {
   try {
     const id = Number(req.params.id);
@@ -29,13 +28,29 @@ async function getMenuItem(req, res, next) {
         menu_item: menuItem,
       },
     });
-
   } catch (error) {
     res.status(error.status).json({
-        "status": "error",
-        "message": error.message
-    })
+      status: "error",
+      message: error.message,
+    });
   }
 }
 
-module.exports = { getMenu, getMenuItem };
+async function createMenuItem(req, res, next) {
+  try {
+    const menuItem = await menuService.createMenuItem(req.body);
+
+    res.status(201).json({
+      status: "success",
+      data: menuItem,
+    });
+
+  } catch (error) {
+    res.status(error.status).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+}
+
+module.exports = { getMenu, getMenuItem, createMenuItem };
