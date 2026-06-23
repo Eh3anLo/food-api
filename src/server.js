@@ -2,6 +2,7 @@ require("dotenv").config()
 const express = require("express");
 const authRoutes = require('./routes/auth.route');
 const { authenticate } = require("./middlewares/auth.middleware");
+const { authorize } = require("./middlewares/role.middleware");
 
 const PORT = process.env.PORT || 3000;
 
@@ -19,6 +20,12 @@ app.get("/", (req, res) => {
 app.get("/profile", authenticate, (req, res) => {
   res.json({
     "user": req.user
+  })
+})
+
+app.get("/admin", authenticate, authorize("ADMIN"), (req, res) => {
+  res.status(200).json({
+    "message" : "welcome admin"
   })
 })
 

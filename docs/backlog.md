@@ -22,9 +22,9 @@
 ## Authentication
 
 - [x] Issue #11 Register API
-- [ ] Issue #12 Login API
-- [ ] Issue #13 JWT Middleware
-- [ ] Issue #14 Role Authorization Middleware
+- [x] Issue #12 Login API
+- [x] Issue #13 JWT Middleware
+- [x] Issue #14 Role Authorization Middleware
 
 ## Menu
 
