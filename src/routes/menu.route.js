@@ -5,6 +5,6 @@ const { authorize } = require("../middlewares/role.middleware")
 const router = express.Router()
 
 router.route("/").get(menuController.getMenu).post(authenticate,authorize("ADMIN"),menuController.createMenuItem)
-router.route("/:id").get(menuController.getMenuItem)
+router.route("/:id").get(menuController.getMenuItem).put(authenticate,authorize("ADMIN"),menuController.updateMenuItem)
 
 module.exports = router

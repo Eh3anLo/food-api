@@ -44,7 +44,6 @@ async function createMenuItem(req, res, next) {
       status: "success",
       data: menuItem,
     });
-
   } catch (error) {
     res.status(error.status).json({
       status: "error",
@@ -53,4 +52,26 @@ async function createMenuItem(req, res, next) {
   }
 }
 
-module.exports = { getMenu, getMenuItem, createMenuItem };
+async function updateMenuItem(req, res, next) {
+  try {
+    const id = Number(req.params.id)
+    const updatedMenuItem = await menuService.updateMenuItem(
+      id,
+      req.body,
+    );
+
+    res.status(200).json({
+      status: "success",
+      data: updatedMenuItem,
+    });
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+}
+
+module.exports = { getMenu, getMenuItem, createMenuItem, updateMenuItem };
