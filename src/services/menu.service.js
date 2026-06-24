@@ -114,9 +114,18 @@ async function updateMenuItem(id, data) {
   // return updatedMenuItem
 }
 
+async function deleteMenuItem(id) {
+  return await prisma.menuItem.delete({
+    where: {
+      id,
+    },
+  });
+}
+
 module.exports = {
   getAllMenuItems,
   getMenuItem,
   createMenuItem,
   updateMenuItem,
+  deleteMenuItem
 };

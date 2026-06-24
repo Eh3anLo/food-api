@@ -74,4 +74,23 @@ async function updateMenuItem(req, res, next) {
   }
 }
 
-module.exports = { getMenu, getMenuItem, createMenuItem, updateMenuItem };
+async function deleteMenuItem(req, res, next) {
+  try {
+    const id = Number(req.params.id)
+    const deletedMenuItem = await menuService.deleteMenuItem(id)
+
+    res.status(200).json({
+      status: "success",
+      data: deletedMenuItem
+    })
+    
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+}
+
+module.exports = { getMenu, getMenuItem, createMenuItem, updateMenuItem, deleteMenuItem };
