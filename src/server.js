@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
 
 app.use("/menu", menuRoutes);
 app.use("/auth", authRoutes);
-app.use("/order", orderRoutes);
+app.use("/orders", orderRoutes);
 
 // // test auth middleware (jwt)
 // app.get("/profile", authenticate, (req, res) => {
