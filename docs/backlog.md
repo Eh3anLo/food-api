@@ -32,7 +32,7 @@
 - [x] Issue #17 Get Menu Item
 - [x] Issue #18 Create Menu Item
 - [x] Issue #19 Update Menu Item
-- [ ] Issue #20 Delete Menu Item
+- [x] Issue #20 Delete Menu Item
 
 ## Orders
 

@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const authRoutes = require("./routes/auth.route");
 const menuRoutes = require("./routes/menu.route");
+const orderRoutes = require("./routes/order.route");
 const { authenticate } = require("./middlewares/auth.middleware");
 const { authorize } = require("./middlewares/role.middleware");
 
@@ -16,6 +17,7 @@ app.get("/", (req, res) => {
 
 app.use("/menu", menuRoutes);
 app.use("/auth", authRoutes);
+app.use("/order", orderRoutes);
 
 // // test auth middleware (jwt)
 // app.get("/profile", authenticate, (req, res) => {
