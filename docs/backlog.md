@@ -17,7 +17,7 @@
 
 - [x] Issue #8  Design Prisma Schema and Initilization
 - [x] Issue #9  Configure Prisma client
-- [ ] Issue #10 Seed Database
+- [x] Issue #10 Seed Database
 
 ## Authentication
 
@@ -36,10 +36,11 @@
 
 ## Orders
 
-- [ ] Issue #16 Create Order
-- [ ] Issue #17 Get Orders (user -> own orders) (admin -> all orders)
-- [ ] Issue #18 Get Order Details
-- [ ] Issue #19 Delete Menu Item
+- [x] Issue #16 Create Order
+- [x] Issue #18 Get My Order
+- [ ] Issue #19 Get Order Detail
+- [ ] Issue #17 Get Orders (admin -> all orders)
+- [ ] Issue #xx Update Order Status (ADMIN)
 
 ## Validation & Errors
 

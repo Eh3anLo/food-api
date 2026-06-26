@@ -67,7 +67,7 @@ async function createOrder(userId, items) {
         price: item.price,
       })),
     });
-    
+
     return {
       order_id: createdOrder.id,
       total_price: totalPrice,
@@ -80,8 +80,41 @@ async function createOrder(userId, items) {
     };
   });
 
-  console.log("FROM SERVICE: ", order)
-  return order
+  console.log("FROM SERVICE: ", order);
+  return order;
 }
 
-module.exports = { createOrder };
+async function getMyOrder(id) {
+  const myOrders = await prisma.order.findMany({
+    where: {
+      userId: id,
+    },
+    include: {
+      items: {
+        select: {
+          quantity: true,
+          price: true,
+          menuItem: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return myOrders.map((order) => ({
+    order_id: order.id,
+    total_price: order.totalPrice,
+    status: order.status.toLowerCase(),
+    created_at: order.created_at,
+    items: order.items.map((item) => ({
+      name: item.menuItem.name,
+      quantity: item.quantity,
+      price: item.price,
+    })),
+  }));
+}
+
+module.exports = { createOrder, getMyOrder };

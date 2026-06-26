@@ -14,4 +14,5 @@ router.post(
   orderController.createOrder
 );
 
+router.get("/my", authenticate, authorize("USER"), orderController.myOrder)
 module.exports = router;
