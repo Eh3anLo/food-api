@@ -16,3 +16,5 @@ router.post(
 
 router.get("/my", authenticate, authorize("USER"), orderController.myOrder)
 module.exports = router;
+
+router.get("/:id", authenticate, orderController.orderById)

@@ -1,4 +1,5 @@
 const prisma = require("../config/prisma");
+const { mapOrderResponse } = require("../utils/order.mapper")
 
 async function createOrder(userId, items) {
   let totalPrice = 0;
@@ -117,4 +118,41 @@ async function getMyOrder(id) {
   }));
 }
 
-module.exports = { createOrder, getMyOrder };
+async function getOrderById(orderId, reqUser) {
+  const order = await prisma.order.findUnique({
+    where: {
+      id: orderId,
+    },
+    include: {
+      items: {
+        select: {
+          quantity: true,
+          price: true,
+          menuItem: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
+    },
+  });
+  console.log(order)
+
+  if (!order) {
+    const error = new Error("Order not found");
+    error.status = 404;
+    throw error;
+  }
+
+  if (reqUser.role === "USER" && order.userId !== reqUser.id) {
+    const error = new Error("Forbbiden");
+    error.status = 403;
+    throw error;
+  }
+
+  return mapOrderResponse(order)
+}
+
+
+module.exports = { createOrder, getMyOrder, getOrderById };
