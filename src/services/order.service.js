@@ -187,4 +187,52 @@ async function getAllOrders() {
 
   return orders;
 }
-module.exports = { createOrder, getMyOrder, getOrderById, getAllOrders };
+
+const allowedTransitions = {
+  PENDING: ["CONFIRMED", "CANCELLED"],
+  CONFIRMED: ["PREPARING", "CANCELLED"],
+  PREPARING: ["DELIVERED"],
+  DELIVERED: [],
+  CANCELLED: [],
+};
+
+async function updateOrderStatus(orderId, status) {
+  const order = await prisma.order.findUnique({
+    where: {
+      id: orderId,
+    },
+  });
+
+  if (!order) {
+    const error = new Error("Order not found");
+    error.status = 404;
+    throw error;
+  }
+
+  const allowed = allowedTransitions[order.status];
+
+  if (!allowed.includes(status)) {
+    const error = new Error(
+      `Cannot change status from ${order.status} to ${status}`,
+    );
+
+    error.status = 400;
+    throw error;
+  }
+
+  const updatedOrder = await prisma.order.update({
+    where: {
+      id: orderId,
+    },
+    data: {
+      status,
+    },
+  });
+
+  return {
+    order_id: updatedOrder.id,
+    total_price: updatedOrder.totalPrice,
+    status: updatedOrder.status,
+  };
+}
+module.exports = { createOrder, getMyOrder, getOrderById, getAllOrders, updateOrderStatus };
