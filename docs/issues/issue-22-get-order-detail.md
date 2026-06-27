@@ -25,21 +25,21 @@ Authenticated Users
 
 ### Route Layer
 
-* [ ] Create GET /orders/:id route
-* [ ] Protect route with JWT middleware
+* [x] Create GET /orders/:id route
+* [x] Protect route with JWT middleware
 
 ### Controller Layer
 
-* [ ] Get order id from params
-* [ ] Get authenticated user
-* [ ] Call service layer
+* [x] Get order id from params
+* [x] Get authenticated user
+* [x] Call service layer
 
 ### Service Layer
 
-* [ ] Find order by id
-* [ ] Return 404 if not found
-* [ ] If USER, verify order belongs to user
-* [ ] Return formatted response
+* [x] Find order by id
+* [x] Return 404 if not found
+* [x] If USER, verify order belongs to user
+* [x] Return formatted response
 
 ---
 
@@ -57,7 +57,7 @@ Status Code: 403
 
 ## Acceptance Criteria
 
-* [ ] USER can view only their own order
-* [ ] ADMIN can view any order
-* [ ] Returns formatted response
-* [ ] Returns 404 if order doesn't exist
+* [x] USER can view only their own order
+* [x] ADMIN can view any order
+* [x] Returns formatted response
+* [x] Returns 404 if order doesn't exist

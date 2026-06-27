@@ -40,6 +40,19 @@ async function orderById(req, res, next) {
       data: order,
     });
   } catch (error) {
+    res.send(error);
+  }
+}
+
+async function allOrders(req, res, next) {
+  try {
+    const allOrders = await orderService.getAllOrders();
+
+    res.status(200).json({
+      status: "success",
+      data: allOrders,
+    });
+  } catch (error) {
     res.send(error)
   }
 }
@@ -47,5 +60,6 @@ async function orderById(req, res, next) {
 module.exports = {
   createOrder,
   myOrder,
-  orderById
+  orderById,
+  allOrders
 };
