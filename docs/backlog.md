@@ -38,9 +38,9 @@
 
 - [x] Issue #16 Create Order
 - [x] Issue #18 Get My Order
-- [ ] Issue #19 Get Order Detail
-- [ ] Issue #17 Get Orders (admin -> all orders)
-- [ ] Issue #xx Update Order Status (ADMIN)
+- [x] Issue #19 Get Order Detail
+- [x] Issue #17 Get Orders (admin -> all orders)
+- [x] Issue #xx Update Order Status (ADMIN)
 
 ## Validation & Errors
 
