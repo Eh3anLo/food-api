@@ -1,93 +1,261 @@
-# Food-API
+# مستند پروژه پایانی
+## درس: توسعه نرم‌افزار
+### سیستم سفارش آنلاین غذا
 
+---
 
+# ۱. هدف کلی پروژه
 
-## Getting started
+طراحی و پیاده‌سازی یک سیستم **Backend** برای سفارش آنلاین غذا. این سیستم دارای دو نقش **کاربر** و **ادمین رستوران** است و باید تمام منطق سفارش‌گیری را پوشش دهد.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+---
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+# ۲. نقش‌های سیستم
 
-## Add your files
+| نقش | دسترسی‌ها |
+|-----|-----------|
+| **کاربر** | ثبت‌نام، ورود، مشاهده منو، ثبت سفارش، مشاهده سفارش‌های خود |
+| **ادمین رستوران** | مدیریت منو، مشاهده همه سفارش‌ها، تغییر وضعیت سفارش |
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+---
+
+# ۳. طراحی دیتابیس
+
+دانشجو باید حداقل این **۴ جدول** را پیاده‌سازی کند:
 
 ```
-cd existing_repo
-git remote add origin http://gitedu.partdp.ir/software-development/ehsan.lotfi/food-api.git
-git branch -M main
-git push -uf origin main
+users
+─────────────────
+id
+name
+email
+password
+role         (user / admin)
+created_at
+
+menu_items
+─────────────────
+id
+name
+description
+price
+category     (غذای اصلی / پیش‌غذا / نوشیدنی / دسر)
+is_available (true / false)
+created_at
+
+orders
+─────────────────
+id
+user_id      (foreign key → users)
+total_price
+status       (pending / confirmed / preparing / delivered / cancelled)
+created_at
+
+order_items
+─────────────────
+id
+order_id     (foreign key → orders)
+menu_item_id (foreign key → menu_items)
+quantity
+price
 ```
 
-## Integrate with your tools
+> ⚠️ **توجه:** دانشجو مجاز است جداول بیشتری اضافه کند اما این ۴ جدول **اجباری** هستند.
 
-- [ ] [Set up project integrations](http://gitedu.partdp.ir/software-development/ehsan.lotfi/food-api/-/settings/integrations)
+---
 
-## Collaborate with your team
+# ۴. API‌های اجباری
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+## ۴.۱ احراز هویت
 
-## Test and Deploy
+| # | Endpoint | Method | توضیح | دسترسی |
+|---|----------|--------|-------|---------|
+| ۱ | `/auth/register` | POST | ثبت‌نام کاربر جدید | عمومی |
+| ۲ | `/auth/login` | POST | ورود و دریافت token | عمومی |
 
-Use the built-in continuous integration in GitLab.
+**نمونه request ثبت‌نام:**
+```json
+{
+  "name": "علی رضایی",
+  "email": "ali@example.com",
+  "password": "12345678",
+  "role": "user"
+}
+```
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+**نمونه response موفق:**
+```json
+{
+  "status": "success",
+  "message": "ثبت‌نام با موفقیت انجام شد",
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  }
+}
+```
 
-***
+---
 
-# Editing this README
+## ۴.۲ مدیریت منو (ادمین)
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+| # | Endpoint | Method | توضیح | دسترسی |
+|---|----------|--------|-------|---------|
+| ۳ | `/menu` | GET | دریافت لیست کامل منو | عمومی |
+| ۴ | `/menu/:id` | GET | دریافت یک آیتم منو | عمومی |
+| ۵ | `/menu` | POST | افزودن آیتم جدید به منو | فقط ادمین |
+| ۶ | `/menu/:id` | PUT | ویرایش آیتم منو | فقط ادمین |
+| ۷ | `/menu/:id` | DELETE | حذف آیتم از منو | فقط ادمین |
 
-## Suggestions for a good README
+**نمونه request افزودن آیتم:**
+```json
+{
+  "name": "پیتزا مارگاریتا",
+  "description": "پیتزا با پنیر موزارلا و سس گوجه",
+  "price": 85000,
+  "category": "غذای اصلی",
+  "is_available": true
+}
+```
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+---
 
-## Name
-Choose a self-explaining name for your project.
+## ۴.۳ مدیریت سفارش
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+| # | Endpoint | Method | توضیح | دسترسی |
+|---|----------|--------|-------|---------|
+| ۸ | `/orders` | POST | ثبت سفارش جدید | فقط کاربر |
+| ۹ | `/orders/my` | GET | مشاهده سفارش‌های خودم | فقط کاربر |
+| ۱۰ | `/orders/:id` | GET | مشاهده جزئیات یک سفارش | کاربر (سفارش خودش) / ادمین |
+| ۱۱ | `/orders` | GET | مشاهده همه سفارش‌ها | فقط ادمین |
+| ۱۲ | `/orders/:id/status` | PATCH | تغییر وضعیت سفارش | فقط ادمین |
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+**نمونه request ثبت سفارش:**
+```json
+{
+  "items": [
+    {
+      "menu_item_id": 1,
+      "quantity": 2
+    },
+    {
+      "menu_item_id": 3,
+      "quantity": 1
+    }
+  ]
+}
+```
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+**نمونه response ثبت سفارش:**
+```json
+{
+  "status": "success",
+  "data": {
+    "order_id": 15,
+    "total_price": 255000,
+    "status": "pending",
+    "items": [
+      {
+        "name": "پیتزا مارگاریتا",
+        "quantity": 2,
+        "price": 85000
+      },
+      {
+        "name": "نوشابه",
+        "quantity": 1,
+        "price": 85000
+      }
+    ]
+  }
+}
+```
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+**نمونه request تغییر وضعیت:**
+```json
+{
+  "status": "preparing"
+}
+```
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+---
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+## ۴.۴ چرخه وضعیت سفارش
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+```
+pending ──► confirmed ──► preparing ──► delivered
+                │
+                ▼
+           cancelled
+```
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+| وضعیت | توضیح |
+|-------|-------|
+| `pending` | سفارش ثبت شده، منتظر تایید |
+| `confirmed` | سفارش تایید شده توسط ادمین |
+| `preparing` | در حال آماده‌سازی |
+| `delivered` | تحویل داده شده |
+| `cancelled` | لغو شده |
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+---
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+# ۵. قوانین کسب و کار (Business Rules)
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+دانشجو باید این قوانین را در کد پیاده‌سازی کند:
 
-## License
-For open source projects, say how it is licensed.
+> **قانون ۱:** کاربر فقط می‌تواند آیتم‌هایی که `is_available: true` هستند را سفارش دهد
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+> **قانون ۲:** `total_price` باید توسط **سرور** محاسبه شود، نه اینکه از کاربر دریافت شود
+
+> **قانون ۳:** کاربر فقط می‌تواند سفارش‌های **خودش** را ببیند
+
+> **قانون ۴:** فقط ادمین می‌تواند وضعیت سفارش را تغییر دهد
+
+> **قانون ۵:** سفارش با `quantity: 0` یا منفی باید خطا برگرداند
+
+---
+
+# ۶. مدیریت خطاها
+
+دانشجو باید برای موارد زیر خطای مناسب برگرداند:
+
+| وضعیت | Status Code | نمونه پیام |
+|-------|------------|------------|
+| ورود با رمز اشتباه | `401` | "ایمیل یا رمز عبور اشتباه است" |
+| دسترسی غیرمجاز | `403` | "شما دسترسی به این بخش ندارید" |
+| آیتم پیدا نشد | `404` | "آیتم مورد نظر یافت نشد" |
+| داده ناقص | `400` | "لطفاً تمام فیلدها را پر کنید" |
+| ایمیل تکراری | `409` | "این ایمیل قبلاً ثبت شده است" |
+
+---
+
+# ۷. الزامات Git
+
+- حداقل **۱۵ کامیت معنادار**
+- کامیت‌ها باید در **طول یک ماه** پخش شده باشند
+
+**✅ نمونه کامیت‌های درست:**
+```
+feat: add user registration endpoint
+feat: add menu CRUD for admin
+feat: implement order creation logic
+fix: fix total price calculation bug
+feat: add order status update endpoint
+docs: update README with API list
+```
+---
+
+#  ۸. هشدارها
+
+> ⛔ **کامیت یکجا**
+> اگر تمام کد در یک یا دو کامیت باشد، **۱۰ نمره** از تست عملی کسر می‌شود
+
+> ⛔ **عدم اجرا**
+> اگر پروژه در روز تست اجرا نشود، نمره تست عملی **صفر** است
+
+---
+
+> 📅 **مهلت تحویل:** یک ماه پس از ابلاغ
+>
+> 📅 **جلسات دفاع:** زمان هماهنگ خواهد شد
+
+---
+موفق باشید 🚀
