@@ -1,5 +1,5 @@
 const prisma = require("../config/prisma");
-
+const ApiError = require("../utils/ApiError");
 const categoryLabel = {
   MAIN_COURSE: "غذای اصلی",
   APPETIZER: "پیش غذا",
@@ -35,9 +35,7 @@ async function getMenuItem(id) {
   });
 
   if (!menuItem) {
-    const error = new Error("آیتم مورد نظر یافت نشد");
-    error.status = 404;
-    throw error;
+    throw new ApiError(404, "آیتم یافت نشد");
   }
 
   return menuItem;
@@ -55,9 +53,7 @@ async function createMenuItem(item) {
   console.log(existingItem);
 
   if (existingItem) {
-    const error = new Error("آیتم در منو وجود دارد");
-    error.status = 409;
-    throw error;
+    throw new ApiError(409, "این آیتم قبلا ثبت شده است");
   }
 
   console.log("SERVICE _ Address");
@@ -72,46 +68,23 @@ async function createMenuItem(item) {
 }
 
 async function updateMenuItem(id, data) {
+
+  const existedItem = await prisma.menuItem.findUnique({
+    where: { id },
+  });
+
+  if (!existedItem) {
+    const error = new Error("Item not found");
+    error.status = 400;
+    throw new ApiError(404, "آیتم یافت نشد");
+  }
+
   return await prisma.menuItem.update({
     where: { id },
     data: {
       ...data,
     },
   });
-  // const existedItem = await prisma.menuItem.findUnique({
-  //   where:{id}
-  // })
-
-  // if(!existedItem){
-  //   const error = new Error("Item not found")
-  //   error.status = 400
-  //   throw error
-  // }
-
-  //  const updatedMenuItem = await prisma.menuItem.update({
-  //     where: { id },
-  //     data: {
-  //       ...data,
-  //     },
-  //   });
-
-  // try {
-
-  //   return updatedMenuItem;
-  // } catch (error) {
-  //   error.status = 404
-  //   error.message = "Item Not found"
-  //   throw error
-  // }
-
-  // if(!updateMenuItem){
-  //   console.log("error : ",updateMenuItem)
-  //   const error = new Error("Item not found")
-  //   error.status = 404
-  //   throw error
-  // }
-
-  // return updatedMenuItem
 }
 
 async function deleteMenuItem(id) {
@@ -127,5 +100,5 @@ module.exports = {
   getMenuItem,
   createMenuItem,
   updateMenuItem,
-  deleteMenuItem
+  deleteMenuItem,
 };

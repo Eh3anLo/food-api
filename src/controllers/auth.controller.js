@@ -13,10 +13,7 @@ async function registerUser(req, res, next) { // req.body = {name,email,password
         })
 
     } catch (error) {
-        res.status(error.status).json({
-            "status": "faild",
-            "message": error.message
-        })
+        next(error)
     }
     
 
@@ -41,10 +38,7 @@ async function loginUser(req, res, next) {
         })
         
     } catch (error) {
-        res.status(error.status).json({
-            "status": "faild",
-            "message": error.message
-        })
+        next(error)
     }
 }
 

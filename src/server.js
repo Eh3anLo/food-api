@@ -5,6 +5,7 @@ const menuRoutes = require("./routes/menu.route");
 const orderRoutes = require("./routes/order.route");
 const { authenticate } = require("./middlewares/auth.middleware");
 const { authorize } = require("./middlewares/role.middleware");
+const errorHandler = require("./middlewares/error.middleware");
 
 const PORT = process.env.PORT || 3000;
 
@@ -19,6 +20,8 @@ app.use("/menu", menuRoutes);
 app.use("/auth", authRoutes);
 app.use("/orders", orderRoutes);
 
+
+app.use(errorHandler)
 // // test auth middleware (jwt)
 // app.get("/profile", authenticate, (req, res) => {
 //   res.json({

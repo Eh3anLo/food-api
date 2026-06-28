@@ -9,10 +9,7 @@ async function getMenu(req, res, next) {
       data: menu,
     });
   } catch (error) {
-    res.status(500).json({
-      status: "failed",
-      message: error.message,
-    });
+    next(error);
   }
 }
 
@@ -29,10 +26,7 @@ async function getMenuItem(req, res, next) {
       },
     });
   } catch (error) {
-    res.status(error.status).json({
-      status: "error",
-      message: error.message,
-    });
+    next(error);
   }
 }
 
@@ -45,52 +39,43 @@ async function createMenuItem(req, res, next) {
       data: menuItem,
     });
   } catch (error) {
-    res.status(error.status).json({
-      status: "error",
-      message: error.message,
-    });
+    next(error);
   }
 }
 
 async function updateMenuItem(req, res, next) {
   try {
-    const id = Number(req.params.id)
-    const updatedMenuItem = await menuService.updateMenuItem(
-      id,
-      req.body,
-    );
+    const id = Number(req.params.id);
+    const updatedMenuItem = await menuService.updateMenuItem(id, req.body);
 
     res.status(200).json({
       status: "success",
       data: updatedMenuItem,
     });
-
   } catch (error) {
-    console.log(error)
-    res.status(500).json({
-      status: "error",
-      message: error.message,
-    });
+    next(error);
   }
 }
 
 async function deleteMenuItem(req, res, next) {
   try {
-    const id = Number(req.params.id)
-    const deletedMenuItem = await menuService.deleteMenuItem(id)
+    const id = Number(req.params.id);
+    const deletedMenuItem = await menuService.deleteMenuItem(id);
 
     res.status(200).json({
       status: "success",
-      data: deletedMenuItem
-    })
-    
-  } catch (error) {
-    console.log(error)
-    res.status(500).json({
-      status: "error",
-      message: error.message,
+      data: deletedMenuItem,
     });
+  } catch (error) {
+    console.log(error);
+    next(error);
   }
 }
 
-module.exports = { getMenu, getMenuItem, createMenuItem, updateMenuItem, deleteMenuItem };
+module.exports = {
+  getMenu,
+  getMenuItem,
+  createMenuItem,
+  updateMenuItem,
+  deleteMenuItem,
+};

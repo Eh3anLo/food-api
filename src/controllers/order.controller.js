@@ -1,4 +1,5 @@
 const orderService = require("../services/order.service");
+const ApiError = require("../utils/ApiError");
 
 async function createOrder(req, res, next) {
   try {
@@ -10,7 +11,7 @@ async function createOrder(req, res, next) {
       data: order,
     });
   } catch (error) {
-    res.send(error);
+    next(error);
   }
 }
 
@@ -24,7 +25,7 @@ async function myOrder(req, res, next) {
       data: myOrders,
     });
   } catch (error) {
-    res.send(error);
+    next(error);
   }
 }
 
@@ -40,7 +41,7 @@ async function orderById(req, res, next) {
       data: order,
     });
   } catch (error) {
-    res.send(error);
+    next(error);
   }
 }
 
@@ -53,7 +54,7 @@ async function allOrders(req, res, next) {
       data: allOrders,
     });
   } catch (error) {
-    res.send(error);
+    next(error);
   }
 }
 
@@ -62,10 +63,7 @@ async function orderStatus(req, res, next) {
     const orderId = Number(req.params.id);
 
     if (Number.isNaN(orderId)) {
-      return res.status(400).json({
-        status: "error",
-        message: "Invalid order id",
-      });
+      throw new ApiError(409, "شماره سفارش نامعتبر است");
     }
 
     const { status } = req.body;
@@ -86,5 +84,5 @@ module.exports = {
   myOrder,
   orderById,
   allOrders,
-  orderStatus
+  orderStatus,
 };

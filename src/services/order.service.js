@@ -1,6 +1,7 @@
 const prisma = require("../config/prisma");
 const { mapOrderResponse } = require("../utils/order.mapper");
 const { getAllMenuItems } = require("./menu.service");
+const ApiError = require("../utils/ApiError");
 
 async function createOrder(userId, items) {
   let totalPrice = 0;
@@ -26,21 +27,15 @@ async function createOrder(userId, items) {
     const menuItem = menuItemsMap.get(item.menuItemId);
 
     if (!menuItem) {
-      const error = new Error("Menu item not found");
-      error.status = 404;
-      throw error;
+      throw new ApiError(404, "آیتم یافت نشد");
     }
 
     if (!menuItem.isAvailable) {
-      const error = new Error(`${menuItem.name} is not available`);
-      error.status = 400;
-      throw error;
+      throw new ApiError(400, `${menuItem.name} موجود نمی باشد`);
     }
 
     if (item.quantity <= 0) {
-      const error = new Error("Quantity must be greater than zero");
-      error.status = 400;
-      throw error;
+      throw new ApiError(400, "تعداد باید بزرگتر از صفر باشد");
     }
 
     totalPrice += menuItem.price * item.quantity;
@@ -143,13 +138,13 @@ async function getOrderById(orderId, reqUser) {
   if (!order) {
     const error = new Error("Order not found");
     error.status = 404;
-    throw error;
+    throw new ApiError(404, "سفارش یافت نشد");
   }
 
   if (reqUser.role === "USER" && order.userId !== reqUser.id) {
     const error = new Error("Forbbiden");
     error.status = 403;
-    throw error;
+    throw new ApiError(403, "شما دسترسی به این بخش ندارید");
   }
 
   return mapOrderResponse(order);
@@ -204,20 +199,16 @@ async function updateOrderStatus(orderId, status) {
   });
 
   if (!order) {
-    const error = new Error("Order not found");
-    error.status = 404;
-    throw error;
+    throw new ApiError(404, "سفارش یافت نشد");
   }
 
   const allowed = allowedTransitions[order.status];
 
   if (!allowed.includes(status)) {
-    const error = new Error(
+    throw new ApiError(
+      400,
       `Cannot change status from ${order.status} to ${status}`,
     );
-
-    error.status = 400;
-    throw error;
   }
 
   const updatedOrder = await prisma.order.update({
@@ -235,4 +226,10 @@ async function updateOrderStatus(orderId, status) {
     status: updatedOrder.status,
   };
 }
-module.exports = { createOrder, getMyOrder, getOrderById, getAllOrders, updateOrderStatus };
+module.exports = {
+  createOrder,
+  getMyOrder,
+  getOrderById,
+  getAllOrders,
+  updateOrderStatus,
+};

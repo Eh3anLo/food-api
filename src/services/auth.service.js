@@ -3,6 +3,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const prisma = require("../config/prisma");
 const { configDotenv } = require("dotenv");
+const ApiError = require("../utils/ApiError");
+const { application } = require("express");
+
 
 async function register(data) {
   const { name, email, password } = data;
@@ -17,9 +20,7 @@ async function register(data) {
 
   if (existingUser) {
     // handle error and return
-    const error = new Error("حساب کاربری با ایمیل وجود دارد.");
-    error.status = 409;
-    throw error;
+    throw new ApiError(409, "حساب کاربری با این ایمیل وجود دارد")
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -55,17 +56,13 @@ async function login(email, pass) {
   });
 
   if (!user) {
-    const error = new Error("کاربر یافت نشد");
-    error.status = 401;
-    throw error;
+    throw new ApiError(401, "کاربر یافت نشد");
   }
 
   const isPasswordValid = await bcrypt.compare(pass, user.password);
 
   if (!isPasswordValid) {
-    const error = new Error("ایمیل یا رمز عبور نامعتبر است.");
-    error.status = 401;
-    throw error;
+     throw new ApiError(401,"ایمیل یا رمز عبور صحیح نمی باشد")
   }
 
   const token = jwt.sign(
