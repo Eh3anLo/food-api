@@ -1,0 +1,83 @@
+MenuItem:
+  type: object
+
+  properties:
+    id:
+      type: integer
+
+    name:
+      type: string
+
+    description:
+      type: string
+
+    price:
+      type: integer
+
+    category:
+      type: string
+
+    isAvailable:
+      type: boolean
+
+CreateMenuRequest:
+  allOf:
+    - $ref: "#/MenuItem"
+
+UpdateMenuRequest:
+  type: object
+
+  properties:
+    name:
+      type: string
+
+    description:
+      type: string
+
+    price:
+      type: integer
+
+    category:
+      type: string
+
+    isAvailable:
+      type: boolean
+
+AllMenuItemsResponse:
+  type: object
+
+  properties:
+    status:
+      type: string
+      example: success
+
+    data:
+      type: array
+      items:
+        type: object
+
+        properties:
+          id:
+            type: integer
+            example: 1
+
+          name:
+            type: string
+            example: پیتزا مارگاریتا
+          description:
+            type: string
+            example: پیتزا مارگاریتا با پنیر موتزارلا و سس گوجه
+          price:
+            type: integer
+            example: 30000
+          category:
+            type: string
+            example: عذای اصلی
+
+          isAvailable:
+            type: boolean
+            example: true
+
+          created_at:
+            type: string
+            example: 2026-06-23T20:16:58.647Z

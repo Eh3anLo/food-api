@@ -1,0 +1,154 @@
+menu:
+
+  get:
+    tags:
+      - Menu
+
+    summary: Get all menu items
+
+    description: Returns all available menu items.
+
+    security: []
+
+    responses:
+      "200":
+        description: Menu retrieved successfully
+
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/menu.yaml#/AllMenuItemsResponse"
+
+  post:
+    tags:
+      - Menu
+
+    summary: Create menu item
+
+    description: Create a new menu item. Admin only.
+
+    security:
+      - bearerAuth: []
+
+    requestBody:
+      required: true
+
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/menu.yaml#/CreateMenuRequest"
+
+    responses:
+      "201":
+        description: Menu item created
+
+      "400":
+        description: Validation error
+
+      "401":
+        description: Unauthorized
+
+      "403":
+        description: Forbidden
+
+
+menuById:
+
+  get:
+    tags:
+      - Menu
+
+    summary: Get menu item
+
+    description: Returns a single menu item.
+
+    security: []
+
+    parameters:
+      - name: id
+        in: path
+        required: true
+
+        schema:
+          type: integer
+
+    responses:
+      "200":
+        description: Menu item found
+
+      "404":
+        description: Menu item not found
+
+
+  patch:
+    tags:
+      - Menu
+
+    summary: Update menu item
+
+    description: Update menu item information. Admin only.
+
+    security:
+      - bearerAuth: []
+
+    parameters:
+      - name: id
+        in: path
+        required: true
+
+        schema:
+          type: integer
+
+    requestBody:
+      required: true
+
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/menu.yaml#/UpdateMenuRequest"
+
+    responses:
+      "200":
+        description: Menu item updated
+
+      "404":
+        description: Menu item not found
+
+      "401":
+        description: Unauthorized
+
+      "403":
+        description: Forbidden
+
+
+  delete:
+    tags:
+      - Menu
+
+    summary: Delete menu item
+
+    description: Delete a menu item. Admin only.
+
+    security:
+      - bearerAuth: []
+
+    parameters:
+      - name: id
+        in: path
+        required: true
+
+        schema:
+          type: integer
+
+    responses:
+      "200":
+        description: Menu item deleted
+
+      "404":
+        description: Menu item not found
+
+      "401":
+        description: Unauthorized
+
+      "403":
+        description: Forbidden

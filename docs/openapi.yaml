@@ -1,0 +1,81 @@
+openapi: 3.0.3
+
+info:
+  title: Food Ordering API
+  version: 1.0.0
+  description: REST API for Restaurant Online Ordering System
+
+servers:
+  - url: http://localhost:3000
+    description: Local Development
+
+tags:
+  - name: Authentication
+    description: Authentication endpoints
+
+  - name: Menu
+    description: Menu management
+
+  - name: Orders
+    description: Order management
+
+paths:
+
+  /auth/register:
+    $ref: "./paths/auth.yaml#/register"
+
+  /auth/login:
+    $ref: "./paths/auth.yaml#/login"
+
+  /menu:
+    $ref: "./paths/menu.yaml#/menu"
+
+  /menu/{id}:
+    $ref: "./paths/menu.yaml#/menuById"
+
+  /orders:
+    $ref: "./paths/orders.yaml#/orders"
+
+  /orders/{id}:
+    $ref: "./paths/orders.yaml#/orderById"
+
+  /orders/{id}/status:
+    $ref: "./paths/orders.yaml#/updateStatus"
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      $ref: "./components/security.yaml"
+
+  schemas:
+
+    ErrorResponse:
+      $ref: "./schemas/common.yaml#/ErrorResponse"
+
+    RegisterRequest:
+      $ref: "./schemas/auth.yaml#/RegisterRequest"
+
+    RegisterResponse:
+      $ref: "./schemas/auth.yaml#/RegisterResponse"
+
+    LoginRequest:
+      $ref: "./schemas/auth.yaml#/LoginRequest"
+
+    LoginResponse:
+      $ref: "./schemas/auth.yaml#/LoginResponse"
+
+    MenuItem:
+      $ref: "./schemas/menu.yaml#/MenuItem"
+
+    CreateMenuRequest:
+      $ref: "./schemas/menu.yaml#/CreateMenuRequest"
+
+    UpdateMenuRequest:
+      $ref: "./schemas/menu.yaml#/UpdateMenuRequest"
+
+    OrderResponse:
+      $ref: "./schemas/order.yaml#/OrderResponse"
+
+    CreateOrderRequest:
+      $ref: "./schemas/order.yaml#/CreateOrderRequest"

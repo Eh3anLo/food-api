@@ -1,0 +1,75 @@
+register:
+  post:
+    tags:
+      - Authentication
+
+    summary: Register new user
+
+    security: []
+
+    requestBody:
+      required: true
+
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/auth.yaml#/RegisterRequest"
+
+    responses:
+      "201":
+        description: User registered
+
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/auth.yaml#/RegisterResponse"
+
+      "409":
+        description: Confilct (Email registerd already)
+
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/auth.yaml#/RegisterError409"
+
+login:
+  post:
+    tags:
+      - Authentication
+
+    summary: Login
+
+    security: []
+
+    requestBody:
+      required: true
+
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/auth.yaml#/LoginRequest"
+
+    responses:
+      "200":
+        description: Login success
+
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/auth.yaml#/LoginResponse"
+
+      "404":
+        description: User not found
+
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/auth.yaml#/LoginError404"
+
+      "401":
+        description: Validation error
+
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/auth.yaml#/LoginError401"

@@ -1,0 +1,34 @@
+CreateOrderRequest:
+
+  type: object
+
+  properties:
+
+    items:
+
+      type: array
+
+      items:
+
+        type: object
+
+        properties:
+
+          menuItemId:
+            type: integer
+
+          quantity:
+            type: integer
+
+OrderResponse:
+
+  type: object
+
+  properties:
+
+    status:
+      type: string
+
+    data:
+
+      type: object

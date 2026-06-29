@@ -1,0 +1,110 @@
+RegisterRequest:
+  type: object
+
+  required:
+    - name
+    - email
+    - password
+
+  properties:
+    name:
+      type: string
+      example: Ali
+
+    email:
+      type: string
+      example: ali@gmail.com
+
+    password:
+      type: string
+      example: 12345678
+
+    role:
+      type: string
+      enum:
+        - USER
+        - ADMIN
+
+RegisterResponse:
+  type: object
+
+  properties:
+    status:
+      type: string
+      example: success
+
+    data:
+      type: object
+
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1Ni....
+
+RegisterError409:
+  type: object
+
+  properties:
+    status:
+      type: string
+      example: error
+
+    message:
+      type: string
+      example: حساب کاربری با این ایمیل وجود دارد
+
+LoginRequest:
+  type: object
+
+  required:
+    - email
+    - password
+
+  properties:
+    email:
+      type: string
+      example: admin@gmail.com
+
+    password:
+      type: string
+      example: 12345678
+
+LoginResponse:
+  type: object
+
+  properties:
+    status:
+      type: string
+      example: success
+
+    data:
+      type: object
+
+      properties:
+        token:
+          type: string
+          example: efskd2casd2....
+
+LoginError404:
+  type: object
+
+  properties:
+    status:
+      type: string
+      example: error
+
+    message:
+      type: string
+      example: کاربر یافت نشد
+
+LoginError401:
+  type: object
+
+  properties:
+    status:
+      type: string
+      example: error
+
+    message:
+      type: string
+      example: ایمیل یا رمز عبور صحیح نمی باشد

@@ -21,7 +21,9 @@ const loginSchema = z.object({
     error: "ایمیل نامعتبر است.",
   }),
 
-  password: z.string().min(8),
+  password: z.string().min(8,{
+    error: "رمز عبور حداقل باید 8 کاراکتر باشد."
+  }),
 });
 
 module.exports = {

@@ -56,7 +56,7 @@ async function login(email, pass) {
   });
 
   if (!user) {
-    throw new ApiError(401, "کاربر یافت نشد");
+    throw new ApiError(404, "کاربر یافت نشد");
   }
 
   const isPasswordValid = await bcrypt.compare(pass, user.password);
