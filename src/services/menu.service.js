@@ -68,14 +68,11 @@ async function createMenuItem(item) {
 }
 
 async function updateMenuItem(id, data) {
-
   const existedItem = await prisma.menuItem.findUnique({
     where: { id },
   });
 
   if (!existedItem) {
-    const error = new Error("Item not found");
-    error.status = 400;
     throw new ApiError(404, "آیتم یافت نشد");
   }
 
@@ -88,9 +85,23 @@ async function updateMenuItem(id, data) {
 }
 
 async function deleteMenuItem(id) {
-  return await prisma.menuItem.delete({
+  const menuItemId = await   prisma.menuItem.findUnique({
     where: {
       id,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  console.log(menuItemId)
+  if (!menuItemId) {
+    throw new ApiError(404, "آیتم یافت نشد");
+  }
+
+  return await prisma.menuItem.delete({
+    where: {
+      id: menuItemId.id,
     },
   });
 }

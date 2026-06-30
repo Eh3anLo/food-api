@@ -1,5 +1,4 @@
 menu:
-
   get:
     tags:
       - Menu
@@ -42,18 +41,29 @@ menu:
       "201":
         description: Menu item created
 
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/menu.yaml#/MenuItem"
+
       "400":
         description: Validation error
 
-      "401":
-        description: Unauthorized
-
       "403":
-        description: Forbidden
+        description: Unauthorized
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/common.yaml#/ErrorResponse403"
 
+      "409":
+        description: Forbidden
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/menu.yaml#/MenuItem409"
 
 menuById:
-
   get:
     tags:
       - Menu
@@ -76,11 +86,19 @@ menuById:
       "200":
         description: Menu item found
 
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/menu.yaml#/MenuItemByIdResponse"
+
       "404":
         description: Menu item not found
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/common.yaml#/ErrorResponse404"
 
-
-  patch:
+  put:
     tags:
       - Menu
 
@@ -111,15 +129,32 @@ menuById:
       "200":
         description: Menu item updated
 
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/menu.yaml#/MenuItem"
+
       "404":
         description: Menu item not found
 
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/common.yaml#/ErrorResponse404"
+
       "401":
         description: Unauthorized
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/common.yaml#/ErrorResponse401"
 
       "403":
         description: Forbidden
-
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/common.yaml#/ErrorResponse403"
 
   delete:
     tags:
@@ -144,11 +179,28 @@ menuById:
       "200":
         description: Menu item deleted
 
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/menu.yaml#/MenuItemDeletetionResponse"
+
       "404":
         description: Menu item not found
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/common.yaml#/ErrorResponse404"
 
       "401":
         description: Unauthorized
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/common.yaml#/ErrorResponse401"
 
       "403":
         description: Forbidden
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/common.yaml#/ErrorResponse403"

@@ -10,10 +10,10 @@ const createMenuSchema = z.object({
   }),
 
   category: z.enum([
-    "MAIN_COURSE",
-    "APPETIZER",
-    "DESSERT",
-    "DRINK",
+    "غذای اصلی",
+    "پیش غذا",
+    "دسر",
+    "نوشیدنی",
   ],{
     message: "category نا معتبر می باشد."
   }),

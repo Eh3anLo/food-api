@@ -1,3 +1,46 @@
+ErrorResponse403:
+
+  type: object
+
+  properties:
+
+    status:
+      type: string
+      example: error
+
+    message:
+      type: string
+      example: شما دسترسی به این بخش ندارید
+
+ErrorResponse404:
+
+  type: object
+
+  properties:
+
+    status:
+      type: string
+      example: error
+
+    message:
+      type: string
+      example: آیتم یافت نشد
+
+
+ErrorResponse401:
+
+  type: object
+
+  properties:
+
+    status:
+      type: string
+      example: error
+
+    message:
+      type: string
+      example: باید وارد شوید
+      
 ErrorResponse:
 
   type: object

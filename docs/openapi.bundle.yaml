@@ -100,12 +100,24 @@ paths:
       responses:
         '201':
           description: Menu item created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuItem'
         '400':
           description: Validation error
-        '401':
-          description: Unauthorized
         '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+        '409':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuItem409'
   /menu/{id}:
     get:
       tags:
@@ -122,9 +134,17 @@ paths:
       responses:
         '200':
           description: Menu item found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuItemByIdResponse'
         '404':
           description: Menu item not found
-    patch:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+    put:
       tags:
         - Menu
       summary: Update menu item
@@ -146,12 +166,28 @@ paths:
       responses:
         '200':
           description: Menu item updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuItem'
         '401':
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
         '404':
           description: Menu item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
     delete:
       tags:
         - Menu
@@ -168,12 +204,28 @@ paths:
       responses:
         '200':
           description: Menu item deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuItemDeletetionResponse'
         '401':
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
         '404':
           description: Menu item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
   /orders:
     get:
       tags:
@@ -363,8 +415,18 @@ components:
         isAvailable:
           type: boolean
     CreateMenuRequest:
-      allOf:
-        - $ref: '#/components/schemas/MenuItem'
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: integer
+        category:
+          type: string
+        isAvailable:
+          type: boolean
     UpdateMenuRequest:
       type: object
       properties:
@@ -456,3 +518,105 @@ components:
               created_at:
                 type: string
                 example: '2026-06-23T20:16:58.647Z'
+    ErrorResponse403:
+      type: object
+      properties:
+        status:
+          type: string
+          example: error
+        message:
+          type: string
+          example: شما دسترسی به این بخش ندارید
+    MenuItem409:
+      type: object
+      properties:
+        status:
+          type: string
+          example: error
+        message:
+          type: string
+          example: این آیتم قبلا ثبت شده است
+    MenuItemByIdResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            menuItem:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                name:
+                  type: string
+                  example: پیتزا مارگاریتا
+                description:
+                  type: string
+                  example: پیتزا مارگاریتا با پنیر موتزارلا و سس گوجه
+                price:
+                  type: integer
+                  example: 30000
+                category:
+                  type: string
+                  example: عذای اصلی
+                isAvailable:
+                  type: boolean
+                  example: true
+                created_at:
+                  type: string
+                  example: '2026-06-23T20:16:58.647Z'
+    ErrorResponse404:
+      type: object
+      properties:
+        status:
+          type: string
+          example: error
+        message:
+          type: string
+          example: آیتم یافت نشد
+    ErrorResponse401:
+      type: object
+      properties:
+        status:
+          type: string
+          example: error
+        message:
+          type: string
+          example: باید وارد شوید
+    MenuItemDeletetionResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            menuItem:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                name:
+                  type: string
+                  example: پیتزا مارگاریتا
+                description:
+                  type: string
+                  example: پیتزا مارگاریتا با پنیر موتزارلا و سس گوجه
+                price:
+                  type: integer
+                  example: 30000
+                category:
+                  type: string
+                  example: عذای اصلی
+                isAvailable:
+                  type: boolean
+                  example: true
+                created_at:
+                  type: string
+                  example: '2026-06-23T20:16:58.647Z'
