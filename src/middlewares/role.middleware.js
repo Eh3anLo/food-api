@@ -5,10 +5,11 @@ function authorize(...role) {
     const userRole = req.user.role;
 
     if (!role.includes(userRole)) {
-      res.status(403).json({
+      return res.status(403).json({
         status: "دسترسی غیر مجاز",
         message: "شما دسترسی به این بخش ندارید",
       });
+      
     }
 
     next();
