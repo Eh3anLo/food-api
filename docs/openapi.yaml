@@ -36,11 +36,15 @@ paths:
   /orders:
     $ref: "./paths/orders.yaml#/orders"
 
+  /orders/my:
+    $ref: "./paths/orders.yaml#/myOrders"
+
   /orders/{id}:
     $ref: "./paths/orders.yaml#/orderById"
 
   /orders/{id}/status:
     $ref: "./paths/orders.yaml#/updateStatus"
+    
 
 components:
 

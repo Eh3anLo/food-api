@@ -78,6 +78,42 @@ orders:
             schema:
               $ref: "../schemas/common.yaml#/ErrorResponse403"
 
+myOrders:
+  get:
+    tags:
+      - Orders
+
+    summary: Get my orders
+
+    description: |
+      Returns all orders of mine.
+
+    security:
+      - bearerAuth: []
+
+    responses:
+      "200":
+        description: Orders retrieved successfully
+
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/order.yaml#/MyOrdersResponse"
+
+      "401":
+        description: Unauthorized
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/common.yaml#/ErrorResponse401"
+
+      "403":
+        description: Forbidden
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/common.yaml#/ErrorResponse403"
+
 orderById:
   get:
     tags:

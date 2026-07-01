@@ -288,6 +288,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse403'
+  /orders/my:
+    get:
+      tags:
+        - Orders
+      summary: Get my orders
+      description: |
+        Returns all orders of mine.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Orders retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MyOrdersResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
   /orders/{id}:
     get:
       tags:
@@ -774,6 +802,51 @@ components:
         message:
           type: string
           example: تعداد سفارش یا آیتم نمیتواند صفر یا کمتر باشد
+    MyOrdersResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              created_at:
+                type: string
+                example: '2026-06-23T20:16:58.647Z'
+              status:
+                type: string
+                enum:
+                  - PENDING
+                  - CONFIRMED
+                  - CANCELED
+                  - DELIVIERD
+                  - PREPARING
+              totalPrice:
+                type: integer
+                example: 30000
+              items:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    quantity:
+                      type: integer
+                      example: 10
+                    price:
+                      type: integer
+                      example: 10000
+                    menuItems:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: چلو مرغ
     OrderByIdResponse:
       type: object
       properties:

@@ -57,6 +57,57 @@ CreateOrderResponse:
                 type: integer
                 example: 10000
 
+MyOrdersResponse:
+  type: object
+
+  properties:
+    status:
+      type: string
+      example: success
+
+    data:
+      type: array
+      items:
+        type: object
+
+        properties:
+          id:
+            type: integer
+            example: 1
+
+          created_at:
+            type: string
+            example: 2026-06-23T20:16:58.647Z
+          status:
+            type: string
+            enum:
+              - PENDING
+              - CONFIRMED
+              - CANCELED
+              - DELIVIERD
+              - PREPARING
+
+          totalPrice:
+            type: integer
+            example: 30000
+          items:
+            type: array
+            items:
+              type: object
+              properties:
+                quantity:
+                  type: integer
+                  example: 10
+                price:
+                  type: integer
+                  example: 10000
+                menuItems:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: چلو مرغ
+
 AllOrderResponse:
   type: object
 
