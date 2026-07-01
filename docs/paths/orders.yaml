@@ -1,15 +1,13 @@
 orders:
-
   get:
     tags:
       - Orders
 
-    summary: Get user orders
+    summary: Get all orders
 
     description: |
       Returns all orders.
 
-      - USER → only their own orders
       - ADMIN → all orders
 
     security:
@@ -19,9 +17,24 @@ orders:
       "200":
         description: Orders retrieved successfully
 
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/order.yaml#/AllOrderResponse"
+
       "401":
         description: Unauthorized
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/common.yaml#/ErrorResponse401"
 
+      "403":
+        description: Forbidden
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/common.yaml#/ErrorResponse403"
 
   post:
     tags:
@@ -46,15 +59,26 @@ orders:
       "201":
         description: Order created
 
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/order.yaml#/CreateOrderResponse"
+
       "400":
         description: Invalid request
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/common.yaml#/ErrorResponse400"
 
       "401":
         description: Unauthorized
-
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/common.yaml#/ErrorResponse403"
 
 orderById:
-
   get:
     tags:
       - Orders
@@ -64,8 +88,8 @@ orderById:
     description: |
       Returns order details.
 
-      USER can access only their own orders.
-      ADMIN can access every order.
+      - USER can access only their own orders.
+      - ADMIN can access every order.
 
     security:
       - bearerAuth: []
@@ -81,23 +105,40 @@ orderById:
     responses:
       "200":
         description: Order found
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/order.yaml#/OrderByIdResponse"
 
       "404":
         description: Order not found
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/common.yaml#/ErrorResponse404"
 
       "401":
         description: Unauthorized
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/common.yaml#/ErrorResponse401"
 
+      "403":
+        description: Forbidden
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/common.yaml#/ErrorResponse403"
 
 updateStatus:
-
   patch:
     tags:
       - Orders
 
     summary: Update order status
 
-    description: Update order status. Admin only.
+    description: Update order status. **Admin only**.
 
     security:
       - bearerAuth: []
@@ -119,7 +160,6 @@ updateStatus:
             type: object
 
             properties:
-
               status:
                 type: string
 
@@ -133,12 +173,28 @@ updateStatus:
     responses:
       "200":
         description: Order updated
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/order.yaml#/OrderUpdateStateResponse"
 
       "404":
         description: Order not found
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/common.yaml#/ErrorResponse404"
 
       "401":
         description: Unauthorized
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/common.yaml#/ErrorResponse401"
 
       "403":
         description: Forbidden
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/common.yaml#/ErrorResponse403"

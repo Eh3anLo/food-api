@@ -1,9 +1,7 @@
 ErrorResponse403:
-
   type: object
 
   properties:
-
     status:
       type: string
       example: error
@@ -13,11 +11,9 @@ ErrorResponse403:
       example: شما دسترسی به این بخش ندارید
 
 ErrorResponse404:
-
   type: object
 
   properties:
-
     status:
       type: string
       example: error
@@ -26,13 +22,10 @@ ErrorResponse404:
       type: string
       example: آیتم یافت نشد
 
-
 ErrorResponse401:
-
   type: object
 
   properties:
-
     status:
       type: string
       example: error
@@ -40,13 +33,11 @@ ErrorResponse401:
     message:
       type: string
       example: باید وارد شوید
-      
-ErrorResponse:
 
+ErrorResponse:
   type: object
 
   properties:
-
     status:
       type: string
       example: error
@@ -54,3 +45,15 @@ ErrorResponse:
     message:
       type: string
       example: Unauthorized
+
+ErrorResponse400:
+  type: object
+
+  properties:
+    status:
+      type: string
+      example: error
+
+    message:
+      type: string
+      example: تعداد سفارش یا آیتم نمیتواند صفر یا کمتر باشد

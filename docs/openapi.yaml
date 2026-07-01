@@ -75,7 +75,7 @@ components:
       $ref: "./schemas/menu.yaml#/UpdateMenuRequest"
 
     OrderResponse:
-      $ref: "./schemas/order.yaml#/OrderResponse"
+      $ref: "./schemas/order.yaml#/CreateOrderResponse"
 
     CreateOrderRequest:
       $ref: "./schemas/order.yaml#/CreateOrderRequest"

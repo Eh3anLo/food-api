@@ -1,34 +1,198 @@
 CreateOrderRequest:
-
   type: object
 
   properties:
-
     items:
-
       type: array
 
       items:
-
         type: object
 
         properties:
-
           menuItemId:
             type: integer
 
           quantity:
             type: integer
 
-OrderResponse:
-
+CreateOrderResponse:
   type: object
 
   properties:
-
     status:
       type: string
+      example: success
 
     data:
-
       type: object
+      properties:
+        order_id:
+          type: integer
+          example: 6150000
+
+        totalPrice:
+          type: integer
+          example: 30000
+        status:
+          type: string
+          enum:
+            - PENDING
+            - CONFIRMED
+            - CANCELED
+            - DELIVIERD
+            - PREPARING
+
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: چلو مرغ
+              quantity:
+                type: integer
+                example: 10
+              price:
+                type: integer
+                example: 10000
+
+AllOrderResponse:
+  type: object
+
+  properties:
+    status:
+      type: string
+      example: success
+
+    data:
+      type: array
+      items:
+        type: object
+
+        properties:
+          id:
+            type: integer
+            example: 1
+
+          user:
+            type: object
+            properties:
+              name:
+                type: string
+                example: ehsan lotfi
+              email:
+                type: string
+                example: ehsan@gmail.com
+
+          created_at:
+            type: string
+            example: 2026-06-23T20:16:58.647Z
+          status:
+            type: string
+            enum:
+              - PENDING
+              - CONFIRMED
+              - CANCELED
+              - DELIVIERD
+              - PREPARING
+
+          totalPrice:
+            type: integer
+            example: 30000
+          items:
+            type: array
+            items:
+              type: object
+              properties:
+                quantity:
+                  type: integer
+                  example: 10
+                price:
+                  type: integer
+                  example: 10000
+                menuItems:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: چلو مرغ
+
+OrderByIdResponse:
+  type: object
+
+  properties:
+    status:
+      type: string
+      example: success
+
+    data:
+      type: object
+      properties:
+        order_id:
+          type: integer
+          example: 6150000
+
+        user:
+          type: object
+          properties:
+            name:
+              type: string
+              example: ehsan
+            email:
+              type: string
+              example: ehsan@gmail.com
+
+        totalPrice:
+          type: integer
+          example: 30000
+        status:
+          type: string
+          enum:
+            - PENDING
+            - CONFIRMED
+            - CANCELED
+            - DELIVIERD
+            - PREPARING
+        created_at:
+          type: string
+          example: 2026-06-23T20:16:58.647Z
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: چلو مرغ
+              quantity:
+                type: integer
+                example: 10
+              price:
+                type: integer
+                example: 10000
+
+OrderUpdateStateResponse:
+  type: object
+  properties:
+    status:
+      type: string
+      example: success
+    data:
+      type: object
+      properties:
+        order_id:
+          type: integer
+          example: 46
+        total_price:
+          type: integer
+          format: int64
+          example: 6150000
+        status:
+          type: string
+          example: CONFIRMED
+          enum:
+            - PENDING
+            - CONFIRMED
+            - CANCELLED
+            - COMPLETED

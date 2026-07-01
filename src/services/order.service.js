@@ -120,6 +120,12 @@ async function getOrderById(orderId, reqUser) {
       id: orderId,
     },
     include: {
+      user: {
+        select: {
+          name: true,
+          email: true,
+        },
+      },
       items: {
         select: {
           quantity: true,
@@ -136,14 +142,10 @@ async function getOrderById(orderId, reqUser) {
   console.log(order);
 
   if (!order) {
-    const error = new Error("Order not found");
-    error.status = 404;
     throw new ApiError(404, "سفارش یافت نشد");
   }
 
   if (reqUser.role === "USER" && order.userId !== reqUser.id) {
-    const error = new Error("Forbbiden");
-    error.status = 403;
     throw new ApiError(403, "شما دسترسی به این بخش ندارید");
   }
 

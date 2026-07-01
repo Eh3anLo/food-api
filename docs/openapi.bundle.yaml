@@ -230,19 +230,32 @@ paths:
     get:
       tags:
         - Orders
-      summary: Get user orders
+      summary: Get all orders
       description: |
         Returns all orders.
 
-        - USER → only their own orders
         - ADMIN → all orders
       security:
         - bearerAuth: []
       responses:
         '200':
           description: Orders retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllOrderResponse'
         '401':
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
     post:
       tags:
         - Orders
@@ -259,10 +272,22 @@ paths:
       responses:
         '201':
           description: Order created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOrderResponse'
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
         '401':
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
   /orders/{id}:
     get:
       tags:
@@ -271,8 +296,8 @@ paths:
       description: |
         Returns order details.
 
-        USER can access only their own orders.
-        ADMIN can access every order.
+        - USER can access only their own orders.
+        - ADMIN can access every order.
       security:
         - bearerAuth: []
       parameters:
@@ -284,16 +309,34 @@ paths:
       responses:
         '200':
           description: Order found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderByIdResponse'
         '401':
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
         '404':
           description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
   /orders/{id}/status:
     patch:
       tags:
         - Orders
       summary: Update order status
-      description: Update order status. Admin only.
+      description: Update order status. **Admin only**.
       security:
         - bearerAuth: []
       parameters:
@@ -320,12 +363,28 @@ paths:
       responses:
         '200':
           description: Order updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderUpdateStateResponse'
         '401':
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
         '404':
           description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
 components:
   securitySchemes:
     bearerAuth:
@@ -441,12 +500,7 @@ components:
         isAvailable:
           type: boolean
     OrderResponse:
-      type: object
-      properties:
-        status:
-          type: string
-        data:
-          type: object
+      $ref: '#/components/schemas/CreateOrderResponse'
     CreateOrderRequest:
       type: object
       properties:
@@ -620,3 +674,176 @@ components:
                 created_at:
                   type: string
                   example: '2026-06-23T20:16:58.647Z'
+    AllOrderResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              user:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: ehsan lotfi
+                  email:
+                    type: string
+                    example: ehsan@gmail.com
+              created_at:
+                type: string
+                example: '2026-06-23T20:16:58.647Z'
+              status:
+                type: string
+                enum:
+                  - PENDING
+                  - CONFIRMED
+                  - CANCELED
+                  - DELIVIERD
+                  - PREPARING
+              totalPrice:
+                type: integer
+                example: 30000
+              items:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    quantity:
+                      type: integer
+                      example: 10
+                    price:
+                      type: integer
+                      example: 10000
+                    menuItems:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: چلو مرغ
+    CreateOrderResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            order_id:
+              type: integer
+              example: 6150000
+            totalPrice:
+              type: integer
+              example: 30000
+            status:
+              type: string
+              enum:
+                - PENDING
+                - CONFIRMED
+                - CANCELED
+                - DELIVIERD
+                - PREPARING
+            items:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: چلو مرغ
+                  quantity:
+                    type: integer
+                    example: 10
+                  price:
+                    type: integer
+                    example: 10000
+    ErrorResponse400:
+      type: object
+      properties:
+        status:
+          type: string
+          example: error
+        message:
+          type: string
+          example: تعداد سفارش یا آیتم نمیتواند صفر یا کمتر باشد
+    OrderByIdResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            order_id:
+              type: integer
+              example: 6150000
+            user:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: ehsan
+                email:
+                  type: string
+                  example: ehsan@gmail.com
+            totalPrice:
+              type: integer
+              example: 30000
+            status:
+              type: string
+              enum:
+                - PENDING
+                - CONFIRMED
+                - CANCELED
+                - DELIVIERD
+                - PREPARING
+            created_at:
+              type: string
+              example: '2026-06-23T20:16:58.647Z'
+            items:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: چلو مرغ
+                  quantity:
+                    type: integer
+                    example: 10
+                  price:
+                    type: integer
+                    example: 10000
+    OrderUpdateStateResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            order_id:
+              type: integer
+              example: 46
+            total_price:
+              type: integer
+              format: int64
+              example: 6150000
+            status:
+              type: string
+              example: CONFIRMED
+              enum:
+                - PENDING
+                - CONFIRMED
+                - CANCELLED
+                - COMPLETED
