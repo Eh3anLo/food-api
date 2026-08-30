@@ -20,7 +20,7 @@ async function createOrder(userId, items) {
   });
 
   const menuItemsMap = new Map(
-    menuItems.map((menuItem) => [menuItem.id, menuItem]),
+    menuItems.map((menuItem) => [menuItem.id, menuItem]), 
   );
 
   for (const item of items) {

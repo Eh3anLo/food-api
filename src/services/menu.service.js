@@ -42,8 +42,7 @@ async function getMenuItem(id) {
 }
 
 async function createMenuItem(item) {
-  console.log("SERVICE_CREATEasdasdads");
-  console.log(item);
+
   const existingItem = await prisma.menuItem.findFirst({
     where: {
       name: item.name,
